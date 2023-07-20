@@ -464,10 +464,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 		slides.forEach(item => item.style.display = 'none'); // 2. скрываю все слайды
 
-
 		slideIndex += 1; // 3. 
 		slides[slideIndex - 1].style.display = 'block'; // 4. 
-
 
 		current.textContent = `0${slideIndex}`;
 	};
@@ -495,6 +493,143 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+	// создаю калькулятор ===================================================================================================
+
+
+	let sex = 'female',
+		height, weight, age,
+		active = 1.375;
+
+
+	// функ по получению значения sex
+	function getSex(selector, activeClass) {
+
+		const elements = document.querySelectorAll(selector); // получаю кнопки м и ж
+
+		elements.forEach(elem => {
+
+			elem.addEventListener('click', (e) => {
+				sex = e.target.getAttribute('id');
+				// if (e.target.getAttribute('id')) {
+				// 	sex = e.target.getAttribute('id');
+				// }
+				elements.forEach(elem => {
+					elem.classList.remove(activeClass); // 5.6 удаляю у всех элементов классы активности
+				});
+				e.target.classList.add(activeClass);
+
+				// console.log(sex);
+				calc();
+			});
+		});
+	}
+
+	getSex('#gender div', 'calculating__choose-item_active');
+
+
+
+
+
+
+	// функ по получению значения active
+	function getActive(selector, activeClass) {
+
+		const elements = document.querySelectorAll(selector); // получаю кнопки м и ж
+
+		elements.forEach(elem => {
+			elem.addEventListener('click', (e) => {
+				active = +e.target.getAttribute('data-ratio');
+
+				// if (e.target.getAttribute('data-ratio')) {
+				// 	active = +e.target.getAttribute('data-ratio');
+				// }
+				elements.forEach(elem => {
+					elem.classList.remove(activeClass); // 5.6 удаляю у всех элементов классы активности
+				});
+				e.target.classList.add(activeClass);
+				// console.log(active);
+
+				calc();
+			});
+
+		});
+
+	}
+	getActive('.calculating__choose_big div', 'calculating__choose-item_active');
+
+
+
+
+
+
+	// функ по получению значений из инпутов
+
+	function getInput(selector) {
+		const input = document.querySelector(selector);
+
+		input.addEventListener('input', () => {
+
+			if (input.value.match(/\D/g)) { // если юзер ввел не цифры
+				input.style.border = '1px solid red';
+			} else {
+				input.style.border = 'none';
+			}
+
+			switch (input.getAttribute('id')) {
+				case 'height':
+					height = +input.value;
+					break;
+				case 'weight':
+					weight = +input.value;
+					break;
+				case 'age':
+					age = +input.value;
+					break;
+			}
+			calc();
+		});
+	}
+
+	getInput('#height');
+	getInput('#weight');
+	getInput('#age');
+
+
+
+
+
+
+
+	// функ по подсчету калорий
+	const result = document.querySelector('.calculating__result span');
+
+	function calc() {
+
+		if (!sex || !height || !weight || !age || !active) {
+			result.textContent = '___';
+			return;
+		}
+
+		if (sex === 'female') {
+			result.textContent = Math.round(447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age) * active);
+		}
+
+		if (sex === 'male') {
+			result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * active);
+		}
+	};
+	calc();
 
 
 
