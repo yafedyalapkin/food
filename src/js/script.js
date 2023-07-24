@@ -1,31 +1,30 @@
 'use strict';
 
+import tabs from './modules/tabs';
+import modal from './modules/modal';
+import timer from './modules/timer';
+import cards from './modules/cards';
+import calc from './modules/calc';
+import forms from './modules/forms';
+import slider from './modules/slider';
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
-
-
-	// require() — это функция для размещения внешних модулей, которые существуют в отдельных файлах
-	const tabs = require('./modules/tabs'),
-		modal = require('./modules/modal'),
-		timer = require('./modules/timer'),
-		cards = require('./modules/cards'),
-		calc = require('./modules/calc'),
-		forms = require('./modules/forms'),
-		slider = require('./modules/slider');
-
-
-
-	tabs();
-	modal();
-	timer();
+	tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
+	modal('[data-modal]', '.modal');
+	timer('2023-09-10');
 	cards();
 	calc();
 	forms();
-	slider();
-
-
-
-
+	slider({
+		slide: '.offer__slide',
+		nextArrow: '.offer__slider-next',
+		prevArrow: '.offer__slider-prev',
+		totalCounter: '#total',
+		currentCounter: '#current',
+	});
 
 
 });

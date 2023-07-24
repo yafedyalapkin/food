@@ -1,10 +1,40 @@
-function modal() {
+function openModal(modalSelector) { // 8. вынесу в отдельную функцию и открытие окна
+    const modal = document.querySelector(modalSelector);
+
+
+    // modal.classList.toggle('hide'); // если такой класс есть - убираю
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+
+    document.body.style.overflow = 'hidden'; // запрещаю прокрутку страницы
+
+    // console.log(modalTimerId);
+    // if (modalTimerId) {
+    //     clearInterval(modalTimerId);
+    // }
+};
+
+
+function closeModal(modalSelector) { // 7. вынесу в отдельную функцию повторяющиеся действия (закрытие окна)
+    const modal = document.querySelector(modalSelector);
+
+
+    // modal.classList.toggle('hide'); // если такой класс нет - добавляю
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+
+    document.body.style.overflow = ''; // разрешаю прокрутку страницы
+};
+
+
+
+function modal(triggerSelector, modalSelector) {
 
 
     // модальное окно ===================================================================================================
 
-    const modal = document.querySelector('.modal'), // получаю модальное окно
-        btns = document.querySelectorAll('[data-modal]'); // кнопки-триггеры
+    const modal = document.querySelector(modalSelector), // получаю модальное окно
+        btns = document.querySelectorAll(triggerSelector); // кнопки-триггеры
 
 
     // простой вариант, но с ним нельзя будет закрыть окно клавишей esc
@@ -39,52 +69,35 @@ function modal() {
     // 2. добавляю его в html-структуру в модальное окно чтобы по-умолчанию оно было скрыто
 
     btns.forEach(btn => { // 3.
-        btn.addEventListener('click', openModal);
+        btn.addEventListener('click', () => openModal(modalSelector));
     });
 
-    function openModal() { // 8. вынесу в отдельную функцию и открытие окна
-        // modal.classList.toggle('hide'); // если такой класс есть - убираю
-        modal.classList.add('show');
-        modal.classList.remove('hide');
 
-        document.body.style.overflow = 'hidden'; // запрещаю прокрутку страницы
-        // clearInterval(modalTimerId);
-    };
-
-
-    function closeModal() { // 7. вынесу в отдельную функцию повторяющиеся действия (закрытие окна)
-        // modal.classList.toggle('hide'); // если такой класс нет - добавляю
-        modal.classList.add('hide');
-        modal.classList.remove('show');
-
-        document.body.style.overflow = ''; // разрешаю прокрутку страницы
-    };
 
 
     modal.addEventListener('click', (e) => { // 5.
         if (e.target === modal || e.target.getAttribute('data-close') == '') { // если элемент, на который кликнули - это именно подложка под модальное окно или крестик, который я выявлю по атрибуту
-            closeModal(); // выполняется функ
+            closeModal(modalSelector); // выполняется функ
         };
     });
 
     document.addEventListener('keydown', (e) => { // 6. вешаю на весь документ событие (нажатие клавиши)
         if (e.code === 'Escape' && !modal.classList.contains('hide')) { // если нажатие клавиши - esc и в окне нету класса hide
-            closeModal(); // выполняется функ
+            closeModal(modalSelector); // выполняется функ
         }
     });
 
 
 
     // модифицирую модал окно
-    // const modalTimerId = setTimeout(openModal, 50000); // через 5 секунд модальное окно откроется самостоятельно
-
     // 1. добавляю в функ OpenModal метод clearInterval(modalTimerId) - сброс таймера. чтобы юзеру не прилитело еще одно окно через какое-то время, после того как он сам его уже открыл 
+    // const modalTimerId = setTimeout(() => openModal('.modal', modalTimerId), 500000); // через 5 секунд модальное окно откроется самостоятельно
 
     // 3. пишу функцию которая будет проверять доскроллил ли юзер до конца страницы
     // function showModalByScroll() {
     //     // если уже проскроленная часть (которую юзер уже не видит) + клиентская высота страницы (та, что видна юзеру) >= чем вся высота документа -1px
     //     if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
-    //         openModal(); // открываю окно
+    //         openModal(modalSelector, modalTimerId); // открываю окно
     //         window.removeEventListener('scroll', showModalByScroll); // удаляю обработчик после того как окно открылось
     //     };
     // };
@@ -96,4 +109,10 @@ function modal() {
 
 }
 
-module.exports = modal;
+export default modal;
+export {
+    closeModal
+};
+export {
+    openModal
+};

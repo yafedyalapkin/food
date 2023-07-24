@@ -1,8 +1,8 @@
-function timer() {
+function timer(deadline) {
     // таймер ===================================================================================================
 
     // 1. создаю дедлайн
-    const deadline = '2023-09-10';
+    // const deadline = '2023-09-10';
 
 
     // 2. функция по расчету всех временных промежутков
@@ -85,4 +85,4 @@ function timer() {
 
 }
 
-module.exports = timer;
+export default timer;

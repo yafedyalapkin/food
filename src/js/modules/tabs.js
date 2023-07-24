@@ -1,10 +1,10 @@
-function tabs() {
+function tabs(tabsSelector, tabsContentSelector, tabsParentSelector, activeClass) {
     // табы ============================================================================================================================
 
     // 1. получаю кнопки, родителя кнопок и то что сожержится в кнопках
-    const tabs = document.querySelectorAll('.tabheader__item'), // 4 кнопки (таба)
-        tabsContent = document.querySelectorAll('.tabcontent'), // 4 контента для разных табов
-        tabsParent = document.querySelector('.tabheader__items'); // родитель для 4 кнопок (табов)
+    const tabs = document.querySelectorAll(tabsSelector), // 4 кнопки (таба)
+        tabsContent = document.querySelectorAll(tabsContentSelector), // 4 контента для разных табов
+        tabsParent = document.querySelector(tabsParentSelector); // родитель для 4 кнопок (табов)
 
 
     // 2. функция по скрытию контента для табов
@@ -18,7 +18,7 @@ function tabs() {
         });
 
         tabs.forEach(tab => { // удаляю классы активности
-            tab.classList.remove('tabheader__item_active');
+            tab.classList.remove(activeClass);
         });
     }
 
@@ -44,7 +44,7 @@ function tabs() {
     // 5. вешаю обработчик кликов на родителя табов
     tabsParent.addEventListener('click', (e) => {
         const target = e.target; // чтобы постоянно не писать e. (e.target - это тот элемент который кликнули)
-        if (target && target.classList.contains('tabheader__item')) { // если у детей есть такой класс
+        if (target && target.classList.contains(tabsSelector.slice(1))) { // если у детей есть такой класс
 
             tabs.forEach((item, i) => { // запускаю перебор 4-ех табов
 
@@ -57,4 +57,4 @@ function tabs() {
     });
 }
 
-module.exports = tabs;
+export default tabs;

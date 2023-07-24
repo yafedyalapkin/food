@@ -1,3 +1,14 @@
+import {
+    openModal,
+    closeModal
+} from './modal'
+
+import {
+    postData
+} from '../services/services';
+
+
+
 function forms() {
 
     // отправляю данные с модальных окон ===================================================================================================
@@ -16,19 +27,6 @@ function forms() {
     // async - ставлю перед функцией (тем самым говорю что после этого слова будет асинхронный код (непонятно когда отработает))
     // awayt - ставлю перед операцией, которую надо дождаться, прежде чем класть в переменную res или возвращать промис
 
-    // 2. создаю функцию которая будет постить данные на сервер
-    const postData = async (url, data) => { // 1арг - путь, куда постить, 2арг - что постить
-
-        const res = await fetch(url, { // создаю промис
-            method: "POST", // хочу отправить данные с формы
-            headers: {
-                'Content-type': 'application/json' // в формате json
-            },
-            body: data // отправляю какие-то данные 
-        });
-
-        return await res.json(); // возвращаю промис с данными, конвертирую их в формат джейсон)
-    };
 
 
 
@@ -71,7 +69,7 @@ function forms() {
         const prevModalDialog = document.querySelector('.modal__dialog');
 
         prevModalDialog.classList.add('hide');
-        openModal();
+        openModal('.modal');
 
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
@@ -86,7 +84,7 @@ function forms() {
             thanksModal.remove();
             prevModalDialog.classList.add('show');
             prevModalDialog.classList.remove('hide');
-            closeModal();
+            closeModal('.modal');
         }, 2000);
     }
 
@@ -100,4 +98,4 @@ function forms() {
 
 }
 
-module.exports = forms;
+export default forms;
